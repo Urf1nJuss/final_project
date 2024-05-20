@@ -2,11 +2,9 @@ import pytest
 from selenium import webdriver
 
 
-# запуск в разных браузерах не реализован, не требуется по заданию
-
 # задаем параметр languege, если не передан - оставляем пустым
 def pytest_addoption(parser):
-    parser.addoption('--language', action='store', default='',
+    parser.addoption('--language', action='store', default='en',
                      help="Choose language")
 
 

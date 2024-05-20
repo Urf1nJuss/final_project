@@ -1,28 +1,17 @@
-import pytest
-from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from .pages.main_page import MainPage
 
 
-# запуск в разных браузерах не реализован, не требуется по заданию
+def test_guest_can_go_to_login_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/"
+    page = MainPage(browser, link)   # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
+    page.open()                      # открываем страницу
+    page.go_to_login_page()          # выполняем метод страницы — переходим на страницу логина
 
-# задаем параметр languege, если не передан - оставляем пустым
-def pytest_addoption(parser):
-    parser.addoption('--language', action='store', default='',
-                     help="Choose language")
-
-
-# если передан параметр language подставляем в ссылку
-@pytest.fixture(scope="function")
-def link(request):
-    language = request.config.getoption('language')
-    return f"https://selenium1py.pythonanywhere.com/{language}/catalogue/coders-at-work_207/"
-
-
-# открываем браузер перед запуском теста и переходим по ссылке
-@pytest.fixture(scope="function")
-def browser(link):
-    print("\nstart browser for test..")
-    browser = webdriver.Chrome()
-    browser.get(link)
-    yield browser
-    print("\nquit browser..")
-    browser.quit()
+def test_guest_should_see_login_link(browser):
+    link = "http://selenium1py.pythonanywhere.com/"
+    page = MainPage(browser, link)
+    page.open()
+    page.should_be_login_link()
